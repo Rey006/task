@@ -1,17 +1,53 @@
 ---
+import { getCollection } from 'astro:content';
+import ServiceCard from '../components/ServiceCard.astro';
 
+const servizi = await getCollection('servizi');
+servizi.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Portfolio - Servizi</title>
+  </head>
+  <body>
+    <main>
+      <h1>I Miei Servizi</h1>
+
+      <div class="servizi-grid">
+        {servizi.map((servizio) => (
+          <ServiceCard 
+            id={servizio.id}
+            title={servizio.data.title}
+            description={servizio.data.description}
+            icon={servizio.data.icon}
+          />
+        ))}
+      </div>
+    </main>
+  </body>
 </html>
+
+<style>
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    background: #0f172a;
+    color: #f8fafc;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .servizi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

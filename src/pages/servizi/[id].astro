@@ -1,0 +1,136 @@
+---
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const servizi = await getCollection('servizi');
+  return servizi.map((servizio) => ({
+    params: { id: servizio.id },
+    props: { servizio },
+  }));
+}
+
+const { servizio } = Astro.props;
+const { Content } = await render(servizio);
+---
+
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{servizio.data.title}</title>
+  </head>
+  <body>
+    <main class="service-detail">
+      <a href="/" class="back-link"> <- torna ai servizi</a>
+
+      <header class="detail-header">
+        {servizio.data.icon && <span class="badge-icon">{servizio.data.icon}</span>}
+        <h1>{servizio.data.title}</h1>
+        <p class="lead-desc">{servizio.data.description}</p>
+      </header>
+
+      <hr class="divider" />
+
+      {/* Usiamo wrapper class per stilizzare il Markdown isolatamente */}
+      <article class="markdown-body">
+        <Content />
+      </article>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #0f172a;
+    color: #f8fafc;
+    margin: 0;
+    padding: 3rem 1.5rem;
+  }
+
+  .service-detail {
+    max-width: 750px;
+    margin: 0 auto;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 2.5rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: #38bdf8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: #7dd3fc;
+  }
+
+  .detail-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .badge-icon {
+    font-size: 2rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 0.5rem 0;
+    color: #f8fafc;
+  }
+
+  .lead-desc {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    margin: 0;
+  }
+
+  .divider {
+    border: 0;
+    border-top: 1px solid #334155;
+    margin: 2rem 0;
+  }
+
+  /* 
+    IL TRUCCO PER IL MARKDOWN:
+    Usiamo il selettore `:global()` così Astro sa che deve stilizzare 
+    gli elementi HTML generati dinamicamente dentro .markdown-body
+  */
+  .markdown-body :global(h2) {
+    font-size: 1.5rem;
+    color: #f8fafc;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .markdown-body :global(p) {
+    color: #cbd5e1;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .markdown-body :global(ul) {
+    color: #cbd5e1;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .markdown-body :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .markdown-body :global(code) {
+    background: #0f172a;
+    color: #38bdf8;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+</style>

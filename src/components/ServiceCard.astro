@@ -1,0 +1,99 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+const { id, title, description, icon } = Astro.props;
+---
+
+<article class="service-card">
+  <div class="card-header">
+    {icon && <span class="card-icon">{icon}</span>}
+    <h2>{title}</h2>
+  </div>
+  
+  <p class="card-desc">{description}</p>
+
+  <a href={`/servizi/${id}`} class="card-link">
+    Scopri di più
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14"></path>
+      <path d="m12 5 7 7-7 7"></path>
+    </svg>
+  </a>
+</article>
+
+<style>
+  .service-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: #0284c7;
+    box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.15);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-icon {
+    font-size: 1.25rem;
+    background: #0f172a;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    border: 1px solid #334155;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #f8fafc;
+    margin: 0;
+  }
+
+  .card-desc {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #38bdf8;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-top: auto;
+    transition: color 0.2s ease;
+  }
+
+  .card-link:hover {
+    color: #7dd3fc;
+  }
+
+  .card-link svg {
+    transition: transform 0.2s ease;
+  }
+
+  .card-link:hover svg {
+    transform: translateX(4px);
+  }
+</style>

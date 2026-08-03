@@ -2,36 +2,43 @@
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const servizi = await getCollection('servizi');
-  return servizi.map((servizio) => ({
-    params: { id: servizio.id },
-    props: { servizio },
+  const projects = await getCollection('projects');
+  return projects.map((projects) => ({
+    params: { id: projects.id },
+    props: { project: projects },
   }));
 }
 
-const { servizio } = Astro.props;
-const { Content } = await render(servizio);
+const { project } = Astro.props;
+const { Content } = await render(project);
 ---
 
 <html lang="it">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{servizio.data.title}</title>
+    <title>{project.data.title}</title>
   </head>
   <body>
-    <main class="service-detail">
-      <a href="/" class="back-link"> <- torna ai servizi</a>
-
+    <main class="project-detail">
+      <a href="/" class="back-link">&lt;- Torna alla Home</a>
+      
       <header class="detail-header">
-        {servizio.data.icon && <span class="badge-icon">{servizio.data.icon}</span>}
-        <h1>{servizio.data.title}</h1>
-        <p class="lead-desc">{servizio.data.description}</p>
+        {project.data.client && <span class="client">{project.data.client}</span>}
+        <h1>{project.data.title}</h1>
+        <p class="lead-desc">{project.data.description}</p>
+        
+        {project.data.tags.length > 0 && (
+          <div class="tags">
+            {project.data.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
       </header>
 
       <hr class="divider" />
 
-      {/* Usiamo wrapper class per stilizzare il Markdown isolatamente */}
       <article class="markdown-body">
         <Content />
       </article>
@@ -48,7 +55,7 @@ const { Content } = await render(servizio);
     padding: 3rem 1.5rem;
   }
 
-  .service-detail {
+  .project-detail {
     max-width: 750px;
     margin: 0 auto;
     background: #1e293b;
@@ -70,13 +77,13 @@ const { Content } = await render(servizio);
     color: #7dd3fc;
   }
 
-  .detail-header {
-    margin-bottom: 1.5rem;
-  }
-
-  .badge-icon {
-    font-size: 2rem;
+  .client {
     display: inline-block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #38bdf8;
+    font-weight: 600;
     margin-bottom: 0.5rem;
   }
 
@@ -89,7 +96,22 @@ const { Content } = await render(servizio);
   .lead-desc {
     font-size: 1.1rem;
     color: #94a3b8;
-    margin: 0;
+    margin: 0 0 1rem 0;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+  }
+
+  .tag {
+    background: #334155;
+    color: #cbd5e1;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
   }
 
   .divider {
@@ -98,11 +120,6 @@ const { Content } = await render(servizio);
     margin: 2rem 0;
   }
 
-  /* 
-    IL TRUCCO PER IL MARKDOWN:
-    Usiamo il selettore `:global()` così Astro sa che deve stilizzare 
-    gli elementi HTML generati dinamicamente dentro .markdown-body
-  */
   .markdown-body :global(h2) {
     font-size: 1.5rem;
     color: #f8fafc;
@@ -124,13 +141,5 @@ const { Content } = await render(servizio);
 
   .markdown-body :global(li) {
     margin-bottom: 0.5rem;
-  }
-
-  .markdown-body :global(code) {
-    background: #0f172a;
-    color: #38bdf8;
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.9em;
   }
 </style>

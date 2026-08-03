@@ -1,0 +1,122 @@
+---
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map((service) => ({
+    params: { id: service.id },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+---
+
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{service.data.title}</title>
+  </head>
+  <body>
+    <main class="service-detail">
+      <a href="/" class="back-link">&lt;- Torna ai servizi</a>
+      <header class="detail-header">
+        <h1>{service.data.title}</h1>
+      </header>
+
+      <hr class="divider" />
+
+      {/* wrapper class per stilizzare il Markdown isolatamente */}
+      <article class="markdown-body">
+        <Content />
+      </article>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #0f172a;
+    color: #f8fafc;
+    margin: 0;
+    padding: 3rem 1.5rem;
+  }
+
+  .service-detail {
+    max-width: 750px;
+    margin: 0 auto;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 2.5rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: #38bdf8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: #7dd3fc;
+  }
+
+  .detail-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .badge-icon {
+    font-size: 2rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin: 0 0 0.5rem 0;
+    color: #f8fafc;
+  }
+
+  .divider {
+    border: 0;
+    border-top: 1px solid #334155;
+    margin: 2rem 0;
+  }
+
+  .markdown-body :global(h2) {
+    font-size: 1.5rem;
+    color: #f8fafc;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .markdown-body :global(p) {
+    color: #cbd5e1;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .markdown-body :global(ul) {
+    color: #cbd5e1;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .markdown-body :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .markdown-body :global(code) {
+    background: #0f172a;
+    color: #38bdf8;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+</style>

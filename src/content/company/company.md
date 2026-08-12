@@ -9,7 +9,7 @@ servedArea:
 seo:
   title: "Il Tuo Nome - Senior Developer Portfolio"
   description: "Portfolio professionale di sviluppo web, architettura software e soluzioni AI."
-availability: "disponibili dopo settembre"
+availability: "disponibili su consulenza"
 social:
   - network: "GitHub"
     url: "https://github.com/tuousername"

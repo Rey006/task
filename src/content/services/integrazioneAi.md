@@ -1,6 +1,6 @@
 ---
 title: "Integrazione AI"
-description: "Implementazione di agenti conversazionali custom e integrazione LLM nei flussi aziendali."
+description: "Implementazione di agenti conversazionali custom e integrazione LLM nei flussi aziendali.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 order: 2
 ---
 

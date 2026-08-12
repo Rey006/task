@@ -1,5 +1,5 @@
 ---
-title: 
+title: "DevOps & Cloud Automation"
 description: "Configurazione di infrastrutture Cloud, pipeline CI/CD automatiche e monitoraggio dei sistemi."
 order: 4
 ---

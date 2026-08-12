@@ -21,3 +21,4 @@ Attualmente, la gerarchia visiva dei servizi è gestita tramite un intero hardco
 ## Bonus: Anteprima Pubblicata
 Il progetto è compilato e distribuito automaticamente tramite Continuous Deployment.
 Puoi visionare il risultato finale qui:
+https://elaborate-ganache-f2a497.netlify.app/
